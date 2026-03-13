@@ -278,6 +278,53 @@ iframe {
     height: 28px;
 }
 
+/* Floating Feedback Button */
+.btn-feedback {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 65px;
+    height: 65px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 3px solid transparent;
+}
+
+.btn-feedback svg {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-feedback:hover {
+    transform: scale(1.15);
+    background-color: #FFD700;
+    color: var(--primary-color);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    border-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .btn-feedback {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 55px;
+        height: 55px;
+    }
+    
+    .btn-feedback svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
 /* Footer */
 .main-footer {
     text-align: center;
