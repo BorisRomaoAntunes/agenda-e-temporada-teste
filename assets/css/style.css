@@ -556,3 +556,108 @@ body.force-mobile .form-item {
     /* Para posicionar badge */
 }
 
+
+/* ============================================
+   BOTÃO DE NOTIFICAÇÕES (FLUTUANTE)
+   ============================================ */
+
+.notification-container {
+    position: fixed;
+    bottom: 102px; /* Feedback bottom(32px) + height(65px) + 5px */
+    right: 2rem;
+    z-index: 1000;
+}
+
+.notification-trigger {
+    width: 65px;
+    height: 65px;
+    background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: pulseNotification 2s ease-in-out infinite;
+}
+
+.notification-trigger svg {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 14px;
+    height: 14px;
+    background-color: #ff4444;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+}
+
+.notification-trigger:hover {
+    transform: scale(1.12);
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+    /* Pausa a animação base de pulso ao passar o mouse para assumir o scale novo */
+    animation-play-state: paused;
+}
+
+.notification-trigger:hover svg {
+    transform: rotate(-15deg);
+}
+
+@keyframes pulseNotification {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(139, 0, 0, 0.6);
+    }
+}
+
+.notification-trigger.shake svg {
+    animation: notificationShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes notificationShake {
+    10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-5deg); }
+    20%, 80% { transform: translate3d(2px, 0, 0) rotate(5deg); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-10deg); }
+    40%, 60% { transform: translate3d(4px, 0, 0) rotate(10deg); }
+}
+
+.notification-trigger.no-anim {
+    animation: none !important;
+}
+
+.notification-trigger.no-anim svg {
+    animation: none !important;
+}
+
+@media (max-width: 768px) {
+    .notification-container {
+        /* Feedback bottom(24px) + height(55px) + 5px */
+        bottom: 84px;
+        right: 1.5rem;
+    }
+    
+    .notification-trigger {
+        width: 55px;
+        height: 55px;
+    }
+    
+    .notification-trigger svg {
+        width: 26px;
+        height: 26px;
+    }
+}
