@@ -687,6 +687,96 @@ body.force-mobile .form-item {
     animation: none !important;
 }
 
+/* Painel de Notificação (Flutuante) */
+.notification-panel {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 250px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 1.2rem;
+    color: var(--text-primary);
+    border: 1px solid rgba(0,0,0,0.05);
+    
+    /* Estado inicial invisível */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px) scale(0.95);
+    transform-origin: bottom right;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1001;
+}
+
+.notification-panel.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.panel-header {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.notification-panel p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.panel-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.btn-panel {
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-no {
+    background-color: #f1f3f5;
+    color: var(--text-secondary);
+}
+
+.btn-no:hover {
+    background-color: #e2e6ea;
+    color: var(--text-primary);
+}
+
+.btn-yes {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn-yes:hover {
+    background-color: #A52A2A;
+}
+
+/* Triângulo na parte de baixo do painel (apontando pro sino) */
+.notification-panel::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 25px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #ffffff;
+}
+
 @media (max-width: 768px) {
     .notification-container {
         /* Feedback bottom(24px) + height(55px) + 5px */

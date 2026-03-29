@@ -106,12 +106,22 @@
 
     <!-- Botão de Notificações -->
     <div class="notification-container">
-        <button class="notification-trigger shake" aria-label="Notificações">
+        <!-- Painel de Convite Flutuante -->
+        <div class="notification-panel" id="notificationPanel">
+            <div class="panel-header">🔔 Fique por dentro!</div>
+            <p>Deseja receber notificações sobre novos cronogramas de ensaio?</p>
+            <div class="panel-actions">
+                <button class="btn-panel btn-no" id="btnNotifNo">Agora não</button>
+                <button class="btn-panel btn-yes" id="btnNotifYes">Sim</button>
+            </div>
+        </div>
+
+        <button class="notification-trigger shake" id="btnNotificationTrigger" aria-label="Notificações">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
-            <span class="notification-badge">1</span>
+            <span class="notification-badge" id="notificationBadge">1</span>
         </button>
     </div>
 

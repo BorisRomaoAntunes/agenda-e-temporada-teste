@@ -341,3 +341,50 @@ class PDFVersionTracker {
 
 // Inicializa automaticamente
 new PDFVersionTracker();
+
+// ==========================================
+// Painel de Notificações - Lógica de UI
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.getElementById('btnNotificationTrigger');
+    const panel = document.getElementById('notificationPanel');
+    const btnYes = document.getElementById('btnNotifYes');
+    const btnNo = document.getElementById('btnNotifNo');
+    const badge = document.getElementById('notificationBadge');
+
+    if (!trigger || !panel) return;
+
+    // Abrir/Fechar painel ao clicar no sino
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        panel.classList.toggle('show');
+        
+        // Pausar a movimentação bruta do sino quando o painel estiver aberto pra não incomodar a leitura
+        if (panel.classList.contains('show')) {
+            trigger.classList.add('no-anim');
+        } else if (!trigger.classList.contains('shake')) {
+            trigger.classList.remove('no-anim');
+        }
+    });
+
+    // Fechar painel se o usuário clicar numa parte cinza/fora do balãozinho
+    document.addEventListener('click', (e) => {
+        if (!panel.contains(e.target) && !trigger.contains(e.target)) {
+            panel.classList.remove('show');
+            if (!trigger.classList.contains('shake')) {
+                trigger.classList.remove('no-anim'); // volta pulso normal caso já tenha resolvido a pendência
+            }
+        }
+    });
+
+    // Ações dos botões (Sim / Agora não)
+    const handleChoice = () => {
+        panel.classList.remove('show');
+        trigger.classList.remove('shake');       // Finalizou tarefa: retira o shake do sino permanente
+        trigger.classList.remove('no-anim');     // Retorna somente a pulsação de luz do botão
+        if (badge) badge.style.display = 'none'; // Esconde a notificação "1" pendente
+    };
+
+    if (btnYes) btnYes.addEventListener('click', handleChoice);
+    if (btnNo) btnNo.addEventListener('click', handleChoice);
+});
