@@ -35,19 +35,21 @@ body {
 
 /* Header */
 .main-header {
-    background-color: #ffffff;
-    /* Fundo branco no header */
+    background: repeating-linear-gradient(
+        45deg,
+        #111111,
+        #111111 20px,
+        #fadb14 20px,
+        #fadb14 40px
+    );
     height: var(--header-height);
     display: flex;
     align-items: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    /* Sombra mais sutil */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
     z-index: 100;
     flex-shrink: 0;
-    border-bottom: 3px solid var(--primary-color);
-    /* Detalhe colorido no header */
 }
 
 .container {
@@ -61,15 +63,23 @@ body {
 }
 
 .logo-oer {
-    height: 50px;
-    /* Altura controlada do logo */
+    height: 60px;
+    /* Altura controlada do logo e fundo para leitura */
     width: auto;
     object-fit: contain;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .header-text {
     display: flex;
     flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .main-header h1 {
@@ -77,6 +87,20 @@ body {
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.ambiente-teste {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    background-color: #ffeeee;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--primary-color);
 }
 
 .main-header p {
