@@ -1,10 +1,12 @@
-# Visualizador de Agenda Digital - OER 🌟
+# 🚧 Ambiente de Teste - Visualizador de Agenda Digital (OER) 🚧
 
-Este é um site moderno e otimizado para a visualização da agenda de ensaios e temporada da **Orquestra Experimental de Repertório (OER)**. O sistema foi desenvolvido para ser rápido, intuitivo e ajudar os músicos a identificarem atualizações instantaneamente.
+> **Atenção:** Este repositório é exclusivo para fins de **teste e experimentação**. Contém layouts diferenciados (como a fita zebrada superior) e não possui garantia de informações atualizadas da orquestra.
 
-🌐 **Acesse em:** [https://borisromaoantunes.github.io/agenda-e-temporada/](https://borisromaoantunes.github.io/agenda-e-temporada/)
+Este é um ambiente isolado do site de visualização da agenda de ensaios e temporada da **Orquestra Experimental de Repertório (OER)**. Foi criado para testar novas funcionalidades estruturais e visuais de forma totalmente segura e sem afetar a versão de produção.
 
-🧪 **Site de Teste:** [https://agenda-e-temporada.vercel.app](https://agenda-e-temporada.vercel.app)
+⚠️ **Acesse o Ambiente de TESTE:** [https://borisromaoantunes.github.io/agenda-e-temporada-teste/](https://borisromaoantunes.github.io/agenda-e-temporada-teste/)
+
+🌐 **Acesse o Site OFICIAL:** [https://borisromaoantunes.github.io/agenda-e-temporada/](https://borisromaoantunes.github.io/agenda-e-temporada/)
 
 ---
 
