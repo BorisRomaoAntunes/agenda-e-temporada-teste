@@ -27,8 +27,14 @@ window.requestFirebaseNotificationPermission = async () => {
         if (permission === 'granted') {
             console.log('[Firebase] Permissão concedida. Gerando Token...');
             
-            // O VapidKey liga o navegadoe ao Firebase Console
-            const currentToken = await getToken(messaging, { vapidKey: VAPID_KEY });
+            // Registra o Service Worker explicitamente com o caminho correto do projeto!
+            const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+
+            // O VapidKey liga o navegador ao Firebase Console, usando nosso Service Worker customizado
+            const currentToken = await getToken(messaging, { 
+                vapidKey: VAPID_KEY,
+                serviceWorkerRegistration: registration
+            });
             
             if (currentToken) {
                 console.log('[Firebase] Sucesso! Token gerado:', currentToken);
