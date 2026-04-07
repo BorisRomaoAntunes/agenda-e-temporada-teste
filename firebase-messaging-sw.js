@@ -24,9 +24,39 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.notification.title || 'Aviso OER Agenda';
   const notificationOptions = {
     body: payload.notification.body,
-    icon: '/assets/img/favicon-final.png', 
-    badge: '/assets/img/favicon-final.png' // Ajuda para navegadores Mobile
+    // Corrigindo para os ícones funcionarem nos repositórios GitHub Pages
+    icon: './assets/img/favicon-final.png', 
+    badge: './assets/img/favicon-final.png',
+    data: {
+      // Usaremos o "data" para transferir a URL destino para o evento de clique
+      click_action: payload.fcmOptions?.link || payload.notification.click_action || 'https://borisromaoantunes.github.io/agenda-e-temporada/'
+    }
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// ====== ROTEAMENTO AO CLICAR NA NOTIFICAÇÃO ======
+self.addEventListener('notificationclick', function(event) {
+  console.log('[Service Worker] Usuário clicou na notificação.');
+  event.notification.close();
+
+  // Usa o link de ação preenchido (ou a URL oficial padrão como Fallback)
+  const targetUrl = event.notification.data.click_action;
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
+      // Se já houver uma aba aberta com esse link exato, apenas traz ela pro foco
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        if (client.url.includes('borisromaoantunes.github.io/agenda-e-temporada') && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Se não, abre uma aba novinha em folha com o site oficial
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
 });
