@@ -424,8 +424,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     iosModal.classList.add('show');
                 }
             } else {
-                // Outro sistema (Android/PC) ou OER App já instalado.
-                // Espaço livre caso queira conectar Push Notifications reais aqui depois.
+                // Outro sistema (Android/PC) ou OER App já instalado (iOS Standalone).
+                // Chama a solicitação real de Push Notifications do Firebase
+                if (window.requestFirebaseNotificationPermission) {
+                    window.requestFirebaseNotificationPermission();
+                } else {
+                    console.warn("Firebase não inicializado a tempo.");
+                }
             }
         });
     }

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <!-- Fundo branco sólido -->
+  <rect width="192" height="192" fill="#FFFFFF"/>
+  
+  <!-- Contorno da logo (Traço preto) -->
+  <path d="M60,115 L60,60 L96,40 L132,60 L132,115 L118,115 L118,67 L96,54 L74,67 L74,115 Z" 
+        fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="round"/>
+        
+  <!-- Texto OER em preto -->
+  <text x="96" y="160" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" 
+        font-weight="400" font-size="38" fill="#000000" text-anchor="middle" letter-spacing="2">OER</text>
+</svg>
