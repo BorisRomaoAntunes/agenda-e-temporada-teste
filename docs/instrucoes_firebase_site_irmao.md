@@ -123,13 +123,27 @@ messaging.onBackgroundMessage((payload) => {
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
-  const targetUrl = event.notification.data.click_action;
+
+  // Define a URL padrão do app
+  let targetUrl = 'https://link-oficial-do-seu-novo-site.com/';
+
+  // Tenta pegar a URL de redirecionamento, se fornecida no payload ou fcmOptions
+  if (event.notification.data && event.notification.data.click_action) {
+      targetUrl = event.notification.data.click_action;
+  } else if (event.notification.data && event.notification.data.FCM_MSG && event.notification.data.FCM_MSG.notification && event.notification.data.FCM_MSG.notification.click_action) {
+      targetUrl = event.notification.data.FCM_MSG.notification.click_action;
+  }
+
+  // Prevenção extra caso o Console do Firebase force a raiz do domínio (comum no Github Pages)
+  if (targetUrl === 'https://seu-dominio-raiz-aqui.com' || targetUrl === 'https://seu-dominio-raiz-aqui.com/') {
+      targetUrl = 'https://link-oficial-do-seu-novo-site.com/';
+  }
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
       for (let i = 0; i < windowClients.length; i++) {
         const client = windowClients[i];
-        if (client.url.includes('sua-url-aqui') && 'focus' in client) {
+        if (client.url.includes('link-oficial-do-seu-novo-site.com') && 'focus' in client) {
           return client.focus();
         }
       }
@@ -166,3 +180,21 @@ Ao gerenciar em que momento solicitar de fato a permissão, implemente a seguint
       3. Sair do navegador, abrir a Tela Inicial do aparelho e **abrir o aplicativo novo gerado**. 
       4. **Dentro desse aplicativo novo**, indicar que ele deve *clicar novamente no botão que assina notificações* e conceder a permissão final no prompt nativo da Apple. (Esse é o passo que as pessoas mais se esquecem).
    - **Qualquer outro cenário:** (Android, Desktop, ou se for PWA em iOS), dispare o script do Firebase: `window.requestFirebaseNotificationPermission()` para subir a requisição nativa.
+
+### 5.3 Persistência da Animação do Sino (UI)
+Se você estiver utilizando um sino ou botão que balança para chamar a atenção, precisa garantir que ele pare de balançar se o usuário recarregar a página e já tiver lidado com isso. Adicione a seguinte checagem antes de disparar seus eventos visuais do Sino:
+
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+    const trigger = document.getElementById('btnNotificationTrigger');
+    const badge = document.getElementById('notificationBadge');
+
+    if (!trigger) return;
+
+    // Se o usuário tem no localStorage o aviso de opt-in ou opt-out registrado
+    if (localStorage.getItem("oer_notification_responded") || localStorage.getItem("oer_notification_declined")) {
+        trigger.classList.remove('shake'); // ou sua-classe-de-balanco
+        if (badge) badge.style.display = 'none'; // Esconde a bolinha '1'
+    }
+});
+```
