@@ -141,10 +141,28 @@ self.addEventListener('notificationclick', function(event) {
 });
 ```
 
-## 5. Gatilho do Front-End e Restrição do iOS
-Esta é a regra de ouro para a interface. No seu script de interface do site (ex `version-tracker.js`):
-1. Detecte se é dispositivo iOS usando a checagem no `userAgent` (`/iPad|iPhone|iPod/.test(userAgent)`).
-2. Detecte se é PWA usando `window.navigator.standalone`.
-3. Ao clicar no botão de aceitar notificação ("Sino -> SIM"):
-   - Se for iOS E NÃO FOR Standalone: Abra um Modal Customizado informando que a Apple bloqueia notificações e peça para ele clicar em Compartilhar > Adicionar à Tela de Início.
-   - Qualquer outro cenário (Desktop, Android, PWA iOS): Dispare `window.requestFirebaseNotificationPermission()` para subir o prompt nativo.
+## 5. Restrição do iOS e Configuração do Front-End
+
+Para que as notificações funcionem de maneira adequada nos aparelhos da Apple (iPhone/iPad), há algumas regras estritas da plataforma (somente funciona se o site for adicionado como aplicativo PWA na tela inicial do dispositivo). Implemente o seguinte:
+
+### 5.1 Configuração Visual Nível Sistema (HTML)
+No arquivo `index.html`, abaixo dos favicons ou tags de meta globais, inclua estas configurações nativas da Apple. É isto que garante que, ao usuário clicar em "Adicionar à Tela de Início", um nome curto e limpo já venha pré-preenchido para o seu aplicativo:
+```html
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OER Agenda"> <!-- Troque para o nome real desejado -->
+```
+
+### 5.2 Lógica do Backend e Gatilho (Front-End)
+Ao gerenciar em que momento solicitar de fato a permissão, implemente a seguinte detecção:
+
+1. Detecte se é dispositivo iOS analisando o `userAgent` (`/iPad|iPhone|iPod/.test(userAgent)`).
+2. Detecte se ele está no "Modo Aplicativo" da tela de início (Standalone) usando `window.navigator.standalone`.
+3. Assinale a ação de notificação (o clique para assinar/aceitar) lidando com dois cenários:
+   - **Se for iOS e NÃO FOR Standalone:** Isso significa que o usuário usou o site padrão (Safari via Link). Você deve exibir um Modal Customizado na tela que ensina que a Apple exige um passo a mais.
+   - **Neste modal, alerte o usuário explicitamente os seguintes 4 passos:**
+      1. Tocar no botão de *Compartilhar* (ícone quadrado ou "Três pontinhos") da barra do Safari.
+      2. Escolher *"Adicionar à Tela de Início"*.
+      3. Sair do navegador, abrir a Tela Inicial do aparelho e **abrir o aplicativo novo gerado**. 
+      4. **Dentro desse aplicativo novo**, indicar que ele deve *clicar novamente no botão que assina notificações* e conceder a permissão final no prompt nativo da Apple. (Esse é o passo que as pessoas mais se esquecem).
+   - **Qualquer outro cenário:** (Android, Desktop, ou se for PWA em iOS), dispare o script do Firebase: `window.requestFirebaseNotificationPermission()` para subir a requisição nativa.
