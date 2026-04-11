@@ -44,19 +44,31 @@ self.addEventListener('notificationclick', function(event) {
   console.log('[Service Worker] Usuário clicou na notificação.');
   event.notification.close();
 
-  // Usa o link de ação preenchido (ou a URL oficial padrão como Fallback)
-  const targetUrl = event.notification.data.click_action;
+  // Define a URL padrão do app
+  let targetUrl = 'https://borisromaoantunes.github.io/agenda-e-temporada/';
+
+  // Tenta pegar a URL de redirecionamento, se fornecida no payload
+  if (event.notification.data && event.notification.data.click_action) {
+      targetUrl = event.notification.data.click_action;
+  } else if (event.notification.data && event.notification.data.FCM_MSG && event.notification.data.FCM_MSG.notification && event.notification.data.FCM_MSG.notification.click_action) {
+      targetUrl = event.notification.data.FCM_MSG.notification.click_action;
+  }
+
+  // Prevenção extra caso o Console do Firebase force a raiz do domínio (comum em Pages)
+  if (targetUrl === 'https://borisromaoantunes.github.io' || targetUrl === 'https://borisromaoantunes.github.io/') {
+      targetUrl = 'https://borisromaoantunes.github.io/agenda-e-temporada/';
+  }
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
-      // Se já houver uma aba aberta com esse link exato, apenas traz ela pro foco
+      // Faz o foco se já tiver a aba do projeto específico aberto
       for (let i = 0; i < windowClients.length; i++) {
         const client = windowClients[i];
         if (client.url.includes('borisromaoantunes.github.io/agenda-e-temporada') && 'focus' in client) {
           return client.focus();
         }
       }
-      // Se não, abre uma aba novinha em folha com o site oficial
+      // Ou abre aba nova com a URL correta
       if (clients.openWindow) {
         return clients.openWindow(targetUrl);
       }

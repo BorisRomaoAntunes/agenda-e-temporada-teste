@@ -354,6 +354,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!trigger || !panel) return;
 
+    // Se a pessoa já decidiu por Sim ou Não antes, para o tremor ao abrir a página
+    if (localStorage.getItem("oer_notification_responded") || localStorage.getItem("oer_notification_declined")) {
+        trigger.classList.remove('shake');
+        if (badge) badge.style.display = 'none';
+    }
+
     // Abrir/Fechar painel ao clicar no sino
     trigger.addEventListener('click', (e) => {
         e.stopPropagation();
