@@ -102,17 +102,23 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const notificationTitle = payload.notification.title || 'Aviso Agenda';
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: './assets/img/favicon-final.png', 
-    badge: './assets/img/favicon-final.png',
-    data: {
-      click_action: payload.fcmOptions?.link || payload.notification.click_action || 'https://link-oficial-do-seu-novo-site.com'
-    }
-  };
+  // O SDK do Firebase gera Notificações automaticamente em segundo plano 
+  // caso o payload contenha o objeto "notification" (Padrão do Console do Firebase).
+  // Portanto, para evitar duplicatas, nós só vamos exibir uma notificação manual 
+  // se a mensagem enviada for PURAMENTE DADOS (data payload sem o objeto 'notification')
+  if (!payload.notification) {
+    const notificationTitle = payload.data?.title || 'Aviso Agenda';
+    const notificationOptions = {
+      body: payload.data?.body || 'Você tem uma nova mensagem.',
+      icon: './assets/img/favicon-final.png', 
+      badge: './assets/img/favicon-final.png',
+      data: {
+        click_action: payload.data?.click_action || 'https://link-oficial-do-seu-novo-site.com'
+      }
+    };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });
 
 self.addEventListener('notificationclick', function(event) {

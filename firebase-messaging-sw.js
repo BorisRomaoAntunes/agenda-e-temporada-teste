@@ -18,22 +18,25 @@ const messaging = firebase.messaging();
 
 // Captura as mensagens enviadas através do Console enquanto a aba do site está fechada
 messaging.onBackgroundMessage((payload) => {
-  console.log('[Service Worker] Foi recebida uma notificação Push em background.', payload);
+  console.log('[Service Worker] Foi recebida uma mensagem Push em background.', payload);
 
-  // Aqui forçamos a Notificação do sistema Operacional a carregar a imagem OER original!
-  const notificationTitle = payload.notification.title || 'Aviso OER Agenda';
-  const notificationOptions = {
-    body: payload.notification.body,
-    // Corrigindo para os ícones funcionarem nos repositórios GitHub Pages
-    icon: './assets/img/favicon-final.png', 
-    badge: './assets/img/favicon-final.png',
-    data: {
-      // Usaremos o "data" para transferir a URL destino para o evento de clique
-      click_action: payload.fcmOptions?.link || payload.notification.click_action || 'https://borisromaoantunes.github.io/agenda-e-temporada/'
-    }
-  };
+  // O SDK do Firebase gera Notificações automaticamente em segundo plano 
+  // caso o payload contenha o objeto "notification" (Padrão do Console do Firebase).
+  // Portanto, para evitar duplicatas, nós só vamos exibir uma notificação manual 
+  // se a mensagem enviada for PURAMENTE DADOS (data payload sem o objeto 'notification')
+  if (!payload.notification) {
+    const notificationTitle = payload.data?.title || 'Aviso OER Agenda';
+    const notificationOptions = {
+      body: payload.data?.body || 'Você tem uma nova mensagem.',
+      icon: './assets/img/favicon-final.png', 
+      badge: './assets/img/favicon-final.png',
+      data: {
+        click_action: payload.data?.click_action || 'https://borisromaoantunes.github.io/agenda-e-temporada/'
+      }
+    };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });
 
 // ====== ROTEAMENTO AO CLICAR NA NOTIFICAÇÃO ======
