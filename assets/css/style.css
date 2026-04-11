@@ -874,6 +874,16 @@ body.force-mobile .form-item {
     color: #8B0000;
 }
 
+.step-highlight {
+    background-color: #fadb14;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border-left: 4px solid #8B0000;
+    margin-top: 0.5rem;
+    color: #111;
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .notification-container {
         /* Feedback bottom(24px) + height(55px) + 5px */

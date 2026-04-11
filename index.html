@@ -7,6 +7,9 @@
     <title>Visualizador da Agenda Digital</title>
     <link rel="icon" type="image/png" href="assets/img/favicon-final.png">
     <link rel="apple-touch-icon" href="assets/img/favicon-final.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Agenda OER">
     <meta name="description" content="Visualizador simples e rápido de partituras e arquivos PDF para músicos.">
     <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://fcmregistrations.googleapis.com; object-src 'self'; base-uri 'self'; form-action 'self';">
@@ -113,11 +116,10 @@
             <button id="closeIosModal" class="ios-modal-close" aria-label="Fechar">&times;</button>
             <h3 class="ios-modal-title">Avisos da Produção</h3>
             <div class="ios-modal-box">
-                <p class="ios-modal-intro">Para ativar no iPhone/iPad, você precisa adicionar esse site a sua home:</p>
+                <p class="ios-modal-intro">Para receber notificações no iPhone/iPad, siga estes passos:</p>
                 <ol class="ios-modal-steps">
-                    <li>Toque no botão de menu (os <strong>três pontinhos</strong>) na aba inferior.</li>
-                    <li>Selecione a opção <strong>"Compartilhar"</strong>.</li>
-                    <li>Role para baixo e escolha <strong>"Adicionar à Tela de Início"</strong> <svg width="14"
+                    <li>Toque em <strong>Compartilhar</strong> (ícone <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin: 0 1px;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>) ou nos <strong>Três Pontinhos (...)</strong> na barra inferior do Safari.</li>
+                    <li>Role o menu e escolha <strong>"Adicionar à Tela de Início"</strong> <svg width="14"
                             height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round"
                             style="vertical-align: text-bottom; color: #8B0000; margin-left: 2px;">
@@ -125,8 +127,8 @@
                             <line x1="12" y1="8" x2="12" y2="16"></line>
                             <line x1="8" y1="12" x2="16" y2="12"></line>
                         </svg>.</li>
-                    <li>Pronto! Assim que houver atualizações, você receberá as notificações. Abra o app a partir da
-                        Tela de Início!</li>
+                    <li>Saia do navegador, vá para a Tela de Início do seu aparelho e <strong>abra o aplicativo recém-criado</strong>.</li>
+                    <li class="step-highlight">Dentro do aplicativo, <strong>clique no sino de notificação</strong> novamente e escolha "Permitir" quando o sistema pedir!</li>
                 </ol>
             </div>
         </div>
