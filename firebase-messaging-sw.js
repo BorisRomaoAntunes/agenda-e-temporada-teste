@@ -1,3 +1,30 @@
+// ====== ROTEAMENTO AO CLICAR NA NOTIFICAÇÃO ======
+// Intercepta o clique ANTES do Firebase para evitar que ele abra a raiz do Github Pages (erro 404)
+self.addEventListener('notificationclick', function(event) {
+  event.stopImmediatePropagation(); 
+  console.log('[Service Worker] Usuário clicou na notificação.');
+  event.notification.close();
+
+  // Define a URL exata que o usuário quer que seja aberta
+  const targetUrl = 'https://borisromaoantunes.github.io/agenda-e-temporada/';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
+      // Faz o foco se já tiver a aba do projeto específico aberta
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        if (client.url.includes('borisromaoantunes.github.io/agenda-e-temporada') && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Ou abre aba nova com a URL correta
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});
+
 // Scripts obrigatórios e compatíveis para rodar o Service Worker em segundo plano
 importScripts('https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging-compat.js');
@@ -37,41 +64,4 @@ messaging.onBackgroundMessage((payload) => {
 
     self.registration.showNotification(notificationTitle, notificationOptions);
   }
-});
-
-// ====== ROTEAMENTO AO CLICAR NA NOTIFICAÇÃO ======
-self.addEventListener('notificationclick', function(event) {
-  console.log('[Service Worker] Usuário clicou na notificação.');
-  event.notification.close();
-
-  // Define a URL padrão do app
-  let targetUrl = 'https://borisromaoantunes.github.io/agenda-e-temporada/';
-
-  // Tenta pegar a URL de redirecionamento, se fornecida no payload
-  if (event.notification.data && event.notification.data.click_action) {
-      targetUrl = event.notification.data.click_action;
-  } else if (event.notification.data && event.notification.data.FCM_MSG && event.notification.data.FCM_MSG.notification && event.notification.data.FCM_MSG.notification.click_action) {
-      targetUrl = event.notification.data.FCM_MSG.notification.click_action;
-  }
-
-  // Prevenção extra caso o Console do Firebase force a raiz do domínio (comum em Pages)
-  if (targetUrl === 'https://borisromaoantunes.github.io' || targetUrl === 'https://borisromaoantunes.github.io/') {
-      targetUrl = 'https://borisromaoantunes.github.io/agenda-e-temporada/';
-  }
-
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function(windowClients) {
-      // Faz o foco se já tiver a aba do projeto específico aberto
-      for (let i = 0; i < windowClients.length; i++) {
-        const client = windowClients[i];
-        if (client.url.includes('borisromaoantunes.github.io/agenda-e-temporada') && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      // Ou abre aba nova com a URL correta
-      if (clients.openWindow) {
-        return clients.openWindow(targetUrl);
-      }
-    })
-  );
 });
